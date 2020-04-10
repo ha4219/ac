@@ -45,7 +45,8 @@ PROJECT_APPS = [
     'core.apps.CoreConfig',
     'reviews.apps.ReviewsConfig',
     'reservations.apps.ReservationsConfig',
-    'lists.apps.listsConfig',
+    'lists.apps.ListsConfig',
+    'conversations.apps.ConversationsConfig',
 ]
 
 # Application definition
