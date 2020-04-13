@@ -110,7 +110,7 @@ class RoomAdmin(admin.ModelAdmin):
     )
     
     def count_amenities(self, obj):
-        print(obj.amenities.all())
+        return obj.amenities.count()
 
 
 @admin.register(models.Photo)
