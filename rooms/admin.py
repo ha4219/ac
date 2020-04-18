@@ -1,6 +1,7 @@
 from django.contrib import admin
 from . import models
-# Register your models here.
+from django.utils.html import mark_safe
+
 
 @admin.register(models.RoomType, models.Facility,
                 models.Amenity, models.HouseRule)
@@ -129,5 +130,10 @@ class RoomAdmin(admin.ModelAdmin):
 @admin.register(models.Photo)
 class PhotoAdmin(admin.ModelAdmin):
     ''' Photo Admin Definition '''
-    pass
+    
+    list_display = ('__str__', 'get_thumbnail')
+    
+    # django supervise security => dont run script
+    def get_thumbnail(self, obj):
+        return mark_safe(f'<img width=50px src={obj.file.url}>')
 
