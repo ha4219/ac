@@ -18,11 +18,17 @@ class ItemAdmin(admin.ModelAdmin):
     pass
 
 
+class PhotoInline(admin.TabularInline):
+    
+    model = models.Photo
+
+    
 @admin.register(models.Room)
 class RoomAdmin(admin.ModelAdmin):
     
     ''' Room Admin Definition '''
     
+    inlines = (PhotoInline, )
     fieldsets = (
         (
             'Basic Info',
@@ -106,6 +112,10 @@ class RoomAdmin(admin.ModelAdmin):
         'facilities',
         'house_rules',
         'country',
+    )
+    
+    raw_id_fields = (
+        'host',
     )
     
     search_fields = (
