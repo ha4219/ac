@@ -29,4 +29,5 @@ class Command(BaseCommand):
             'room': lambda x: random.choice(rooms),
             'user': lambda x: random.choice(users),
         })
+        seeder.execute()
         self.stdout.write(self.style.SUCCESS(f"{number} Reviews created"))
