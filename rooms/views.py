@@ -1,7 +1,7 @@
 from django.views.generic import ListView, DetailView
 from django.utils import timezone
 from django.urls import reverse
-# from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect
 # from django.http import Http404
 from . import models
 
@@ -33,3 +33,9 @@ class RoomDetailView(DetailView):
     ''' RoomDetailView Definition '''
     model = models.Room
     # pk_url_kwarg = 'photato'
+    
+
+def search(request):
+    city = request.GET.get('city')
+    city = str.capitalize(city)
+    return render(request, 'rooms/search.html', {'city':city})
