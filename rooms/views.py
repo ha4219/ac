@@ -30,6 +30,7 @@ class HomeView(ListView):
 #     except models.Room.DoesNotExist:
 #         raise Http404()
 
+
 class RoomDetailView(DetailView):
     ''' RoomDetailView Definition '''
     model = models.Room
