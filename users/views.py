@@ -11,9 +11,8 @@ class LoginView(View):
     
     def post(self, request):
         form = forms.LoginForm(request.POST)
-        
-    
-def login_view(request):
-    if request.method == "GET":
-        form = forms.LoginForm()
-        return render(request, 'users/login.html', {'form':form})
+        print(request)
+        if form.is_valid():
+            print('?')
+            return render(request, 'users/login.html', {'form': form})
+
