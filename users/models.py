@@ -1,8 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
-# Create your models here.abs()
-
 
 class User(AbstractUser):
     ''' Custom User Model '''
@@ -40,8 +38,22 @@ class User(AbstractUser):
     language = models.CharField(choices=LANGUAGE_CHOICES, max_length=2, null=True, blank=True, default=LANGUAGE_KOREAN)
     currency = models.CharField(choices=CURRENCY_CHOICES, max_length=3, null=True, blank=True, default=CURRENCY_KRW)
     superhost = models.BooleanField(default=False)
-    email_confirmed = models.BooleanField(default=False)
+    email_verified = models.BooleanField(default=False)
     email_secret = models.CharField(max_length=120, default='', blank=True)
     
     def verify_email(self):
-        pass
+        if self.email_verified is False:
+            import uuid
+            from django.core.mail import send_mail
+            from django.conf import settings
+            from django.utils.html import strip_tags
+            from django.template.loader import render_to_string
+            
+            
+            secret = uuid.uuid4().hex[:20]
+            self.email_secret = secret
+            html_message = render_to_string('emails/verify_email.html', {'secret': secret})
+            send_mail('Verify dongha', strip_tags(html_message), html_message=html_message,settings.EMAIL_FROM,
+                     [self.email], fail_silently=False)
+        
+            
