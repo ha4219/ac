@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect, reverse
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse_lazy
 from . import forms, models
+from django.contrib import messages
 
 
 class LoginView(FormView):
@@ -30,6 +31,7 @@ class LoginView(FormView):
     #     return render(request, 'users/login.html', {'form': form})
     
 def log_out(request):
+    messages.info(request, f"See you later")
     logout(request)
     return redirect(reverse("core:home"))
 
