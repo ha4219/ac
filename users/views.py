@@ -1,5 +1,5 @@
 from django.views import View
-from django.views.generic import FormView
+from django.views.generic import FormView, DetailView
 from django.shortcuts import render, redirect, reverse
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse_lazy
@@ -60,3 +60,9 @@ def complete_verification(request, key):
     except models.User.DoesNotExist:
         pass
     return redirect(reverse('core:home'))
+
+
+class UserProfileView(DetailView):
+
+    model = models.User
+    context_object_name = "user_obj"
