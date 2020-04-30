@@ -12,7 +12,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 class LoginView(mixins.LoggedOutOnlyView, FormView):
     template_name = 'users/login.html'
     form_class = forms.LoginForm
-    success_url = reverse_lazy('core:home')
+
     
     def form_valid(self, form):
         email = form.cleaned_data.get('email')
@@ -21,6 +21,13 @@ class LoginView(mixins.LoggedOutOnlyView, FormView):
         if user is not None:
             login(self.request, user)
         return super().form_valid(form)
+    
+    def get_success_url(self):
+        next_arg = self.request.GET.get("next")
+        if next_arg is not None:
+            return next_arg
+        else:
+            return reverse("core:home")
     # def post(self, request):
     #     form = forms.LoginForm(request.POST)
     #     if form.is_valid():
@@ -73,7 +80,7 @@ class UserProfileView(DetailView):
     # def get_context_data(self, **kwargs):
     #     context =  super().get_context_data(**kwargs)
     
-class UpdateProfileView(SuccessMessageMixin, UpdateView):
+class UpdateProfileView(mixins.LoggedInOnlyView, SuccessMessageMixin, UpdateView):
     model = models.User
     template_name = 'users/update-profile.html'
     success_message = "Profile Updated"
@@ -101,7 +108,12 @@ class UpdateProfileView(SuccessMessageMixin, UpdateView):
         
         
 
-class UpdatePasswordView(SuccessMessageMixin, PasswordChangeView):
+class UpdatePasswordView(
+    mixins.EmailLoginOnlyView,
+    mixins.LoggedInOnlyView,
+    SuccessMessageMixin,
+    PasswordChangeView,
+):
 
     template_name = "users/update-password.html"
     success_message = "Password Updated"
