@@ -11,6 +11,9 @@
                 {% endif %}
             </a>
         </li>
+	{% if request.session.is_hosting %}
+		<li class="nav_link"><a href="{% url 'rooms:create' %}">Create Room</a></li>
+	{% endif %}
     {% else %}
         <li class="nav_link"><a href="{% url 'users:login' %}">Log in</a></li>
         <li class="nav_link"><a href="{% url 'users:signup' %}">Sign up</a></li>
